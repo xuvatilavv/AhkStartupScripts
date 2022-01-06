@@ -62,14 +62,14 @@ DeleteOldBackups(dir, filePattern, numToKeep)
 
 	; Can't sort arrays directly, so we build a multiline string then convert.
 	baks := ""
-	Loop, Files, % backupDir . "\" . filePattern, F
+	Loop, Files, % dir . "\" . filePattern, F
 		baks .= A_LoopFileTimeModified . illegalFish . A_LoopFileLongPath . "`n"
 	; Remove trailing newline
 	baks := SubStr(baks, 1, -1)
 	Sort baks
 	baks := StrSplit(baks, "`n")
 
-	Loop % baks.Count() - keepBackupsCount
+	Loop % baks.Count() - numToKeep
 	{
 		FileDelete % RegExReplace(baks[A_Index], "^.+?" . illegalFish)
 	}
